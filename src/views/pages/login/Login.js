@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   CButton,
@@ -15,10 +15,23 @@ import {
   CRow,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { test } from "../service/service.js";
+import { submitFormLoginApi } from "../service/service.js";
 
 const Login = () => {
-  test();
+  const [body, setBody] = useState({ email: "", password: "" });
+  const onChangeFormLogin = (event) => {
+    let field = event.target.id;
+    let data = event.target.value;
+    if (field in body) {
+      let bodyTemp = body;
+      bodyTemp[field] = data;
+      setBody(bodyTemp);
+    }
+  };
+
+  const submitFormLogin = () => {
+    submitFormLoginApi().then((res) => console.log(res));
+  };
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -38,8 +51,10 @@ const Login = () => {
                       </CInputGroupPrepend>
                       <CInput
                         type="text"
-                        placeholder="Username"
-                        autoComplete="username"
+                        placeholder="Email"
+                        autoComplete="email"
+                        id="email"
+                        onChange={onChangeFormLogin}
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
@@ -52,11 +67,18 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        id="password"
+                        onChange={onChangeFormLogin}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs="6">
-                        <CButton color="primary" className="px-4">
+                        <CButton
+                          type="submit"
+                          color="primary"
+                          className="px-4"
+                          onClick={submitFormLogin}
+                        >
                           Login
                         </CButton>
                       </CCol>
@@ -76,6 +98,8 @@ const Login = () => {
                 <CCardBody className="text-center">
                   <div>
                     <h2>Sign up</h2>
+                    <br />
+                    <br />
                     <br />
                     <br />
                     <br />
