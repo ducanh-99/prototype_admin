@@ -19,6 +19,7 @@ import { submitFormLoginApi } from "../service/service.js";
 
 const Login = () => {
   const [body, setBody] = useState({ email: "", password: "" });
+  const [code, setCode] = useState(0);
   const onChangeFormLogin = (event) => {
     let field = event.target.id;
     let data = event.target.value;
@@ -30,7 +31,15 @@ const Login = () => {
   };
 
   const submitFormLogin = () => {
-    submitFormLoginApi().then((res) => console.log(res));
+    submitFormLoginApi(body).then((res) => {
+      setCode(res.code);
+      if (code === 200) {
+        console.log(200);
+        window.location.replace("http://localhost:3000/?#/")
+      } else if (code === 500) {
+        console.log(500);
+      }
+    });
   };
   return (
     <div className="c-app c-default-layout flex-row align-items-center">

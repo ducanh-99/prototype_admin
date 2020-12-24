@@ -7,14 +7,13 @@ export function onChangeFormLogin(event) {
 }
 
 export async function submitFormLoginApi(body) {
-  console.log(body);
   let check_errors = false;
+  console.log(body)
   await axios
     .post("/api/admin/login", body)
     .then((res) => {
       console.log(res);
       saveTokenLocalStorage(res.data.token);
-      return { code: 200 };
     })
     .catch(function (error) {
       if (error.response) {
